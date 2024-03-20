@@ -26,21 +26,22 @@ classifiers = [
   "Programming Language :: Python :: 3 :: Only",
 ]
 dependencies = [
-  "alembic",
-  "celery",
+  # env builds
+  # conda (which cannot be installed via pip see https://github.com/conda/conda/issues/11715)
+  "python-docker",
   # we need platform dependent dependencies here
   "conda-docker; sys_platform == 'linux'",
-  "python-docker",
+  "conda-lock >=1.0.5",
   "conda-pack",
   "conda-package-handling",
   "conda-package-streaming",
-  "conda-lock >=1.0.5",
-  "constructor",
+  # web server
+  "alembic",
+  "celery",
   "fastapi",
   "filelock",
   "itsdangerous",
   "jinja2",
-  "minio",
   "pyjwt",
   "psycopg2-binary",
   "pymysql",
@@ -49,11 +50,14 @@ dependencies = [
   "requests",
   "pydantic<2",
   "python-multipart",
-  "sqlalchemy",
+  "sqlalchemy<=1.4.47",
   "traitlets",
   "uvicorn",
   "yarl",
-  # conda (which cannot be installed via pip see https://github.com/conda/conda/issues/11715)
+  # installer
+  "constructor",
+  # artifact storage
+  "minio",
 ]
 
 [project.optional-dependencies]
