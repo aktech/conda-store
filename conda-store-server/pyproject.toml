@@ -53,9 +53,24 @@ dependencies = [
   "traitlets",
   "uvicorn",
   "yarl",
-  # conda (which should not be included here) #TODO: @trallard this needs check because it is a hard dependency
+  # conda (which cannot be installed via pip see https://github.com/conda/conda/issues/11715)
 ]
 dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = ["build",
+  "twine",
+  "flower",
+  "pre-commit",
+  "pytest",
+  "pytest-celery",
+  "pytest-mock",
+  "pytest-playwright",
+  "typer",
+  "docker-compose",
+  "playwright",
+  "aiohttp>=3.8.1",
+]
 
 [project.urls]
 Homepage = "https://conda.store/"
@@ -63,21 +78,6 @@ Source = "https://github.com/conda-incubator/conda-store"
 
 [tool.hatch.version]
 path = "conda_store_server/__init__.py"
-
-[project.optional-dependencies]
-dev = ["build",
-  "twine",
-  "flower",
-  "pre-commit",
-  "sphinx",
-  "myst-parser",
-  "sphinx-panels",
-  "sphinx-copybutton",
-  "pydata-sphinx-theme",
-  "pytest",
-  "pytest-mock",
-  "pytest-playwright",
-]
 
 [tool.hatch.envs.dev.scripts]
 lint = ["pre-commit run --all"]
