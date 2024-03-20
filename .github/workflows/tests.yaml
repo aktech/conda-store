@@ -37,13 +37,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: "Set up env ${{ matrix.os }} 🐍"
-        uses: conda-incubator/setup-miniconda@v2
+        uses: conda-incubator/setup-miniconda@v3
         with:
             environment-file: ${{ matrix.environment-file }}
             miniforge-version: latest
 
       # This fixes a "DLL not found" issue importing ctypes from the hatch env
-      - name: Reinstall Python 3.10 on Windows runner
+      - name: "Reinstall Python 3.10 on Windows runner"
         uses: nick-fields/retry@v2.8.3
         with:
           timeout_minutes: 9999
@@ -78,7 +78,7 @@ jobs:
 
 
   integration-test-conda-store-server:
-    name: "integration-test conda-store-server"
+    name: "Integration-test conda-store-server"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -89,7 +89,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: "Set up env 🐍"
-        uses: conda-incubator/setup-miniconda@v2
+        uses: conda-incubator/setup-miniconda@v3
         with:
           environment-file: conda-store-server/environment-dev.yaml
           miniforge-version: latest
@@ -114,11 +114,11 @@ jobs:
           pytest --video on ../tests/test_playwright.py
 
       - name: "Upload test results 📤"
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
           name: playwright-tests
-          path: conda-store-server/test-results
+          path: conda-store-server/test-results/
 
       - name: "Run integration tests ✅"
         run: |
@@ -135,7 +135,7 @@ jobs:
           docker-compose logs
 
   test-conda-store:
-    name: "integration-test conda-store"
+    name: "Integration-test conda-store"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -148,7 +148,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: "Set up Python 🐍"
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -201,7 +201,7 @@ jobs:
           docker-compose logs
 
   build-docker-image:
-    name: "Build docker images"
+    name: Build docker images
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -209,20 +209,20 @@ jobs:
           - conda-store
           - conda-store-server
     steps:
-      - name: "Checkout Repository"
+      - name: "Checkout Repository 🛎"
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
+      - name: "Set up Docker Buildx"
         uses: docker/setup-buildx-action@v3
 
-      - name: Lint Dockerfiles
+      - name: "Lint Dockerfiles"
         uses: jbergstroem/hadolint-gh-action@v1
         with:
           dockerfile: ${{ matrix.docker-image }}/Dockerfile
           output_format: tty
           error_level: 0
 
-      - name: Docker Meta
+      - name: "Docker Meta"
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -231,7 +231,7 @@ jobs:
           tags: |
             type=sha
 
-      - name: Build docker
+      - name: "Build docker"
         uses: docker/build-push-action@v5
         with:
           context: "${{ matrix.docker-image }}"
