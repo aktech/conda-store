@@ -26,25 +26,34 @@ classifiers = [
   "Programming Language :: Python :: 3 :: Only",
 ]
 dependencies = [
-  "conda-docker; sys_platform == 'linux'",
-  "conda-pack",
+  "alembic",
   "celery",
-  "sqlalchemy",
-  "requests",
+  # we need platform dependent dependencies here
+  "conda-docker; sys_platform == 'linux'",
+  "python-docker",
+  "conda-pack",
+  "conda-package-handling",
+  "conda-package-streaming",
+  "conda-lock >=1.0.5",
+  "constructor",
   "fastapi",
-  "pyyaml",
-  "redis",
-  "pydantic<2",
-  "minio",
-  "traitlets",
-  "pyjwt",
-  "yarl",
   "filelock",
   "itsdangerous",
   "jinja2",
+  "minio",
+  "pyjwt",
+  "psycopg2-binary",
+  "pymysql",
+  "pyyaml",
+  "redis",
+  "requests",
+  "pydantic<2",
   "python-multipart",
-  "python-docker"
-  # conda (which should not be included here)
+  "sqlalchemy",
+  "traitlets",
+  "uvicorn",
+  "yarl",
+  # conda (which should not be included here) #TODO: @trallard this needs check because it is a hard dependency
 ]
 dynamic = ["version"]
 
@@ -56,10 +65,9 @@ Source = "https://github.com/conda-incubator/conda-store"
 path = "conda_store_server/__init__.py"
 
 [project.optional-dependencies]
-dev = ["build", "twine"]
-
-[tool.hatch.envs.dev]
-dependencies = [
+dev = ["build",
+  "twine",
+  "flower",
   "pre-commit",
   "sphinx",
   "myst-parser",
