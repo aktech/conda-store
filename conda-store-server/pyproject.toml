@@ -55,7 +55,6 @@ dependencies = [
   "yarl",
   # conda (which cannot be installed via pip see https://github.com/conda/conda/issues/11715)
 ]
-dynamic = ["version"]
 
 [project.optional-dependencies]
 dev = ["build",

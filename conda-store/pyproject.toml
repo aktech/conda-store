@@ -31,8 +31,16 @@ classifiers = [
   "Intended Audience :: Science/Research",
   "Intended Audience :: System Administrators",
 ]
-dependencies = ["rich", "click", "yarl", "aiohttp", "ruamel.yaml"]
-dynamic = ["version"]
+
+dependencies = ["rich",
+  "click",
+  "yarl",
+  "aiohttp>=3.8.1",
+  "ruamel.yaml"]
+
+[project.optional-dependencies]
+dev = ["build", "twine", "pre-commit"]
+tests = ["pytest", "pytest-mock"]
 
 [project.urls]
 Homepage = "https://conda.store/"
@@ -40,9 +48,6 @@ Source = "https://github.com/conda-incubator/conda-store"
 
 [tool.hatch.version]
 path = "conda_store/__init__.py"
-
-[project.optional-dependencies]
-dev = ["build", "twine"]
 
 [tool.hatch.envs.dev]
 dependencies = [

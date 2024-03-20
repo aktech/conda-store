@@ -6,8 +6,7 @@ dependencies:
   - jupyterhub<2.0.0
   - jupyterlab>=3.0.0
   - nb_conda_kernels
-  # - nb_conda_store_kernels >=0.1.4
-  - nodejs=16
+  - nodejs>=18.0
   - yarn
   # conda-store client dependencies
   - yarl
